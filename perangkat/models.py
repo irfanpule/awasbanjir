@@ -10,11 +10,11 @@ STATUS_BENCANA = namedtuple(
 )._make(range(4))
 
 
-class Alat(BaseModel):
+class Perangkat(BaseModel):
     nama = models.CharField('Nama', max_length=220, help_text='Mis. Pendeteksi Banjir')
     tipe = models.CharField('Tipe', max_length=100, null=True, blank=True, help_text='Mis. Arduino Uno')
-    unique_id = models.UUIDField(default=uuid.uuid4(), editable=False)
-    lokasi = models.TextField('Lokasi', help_text='Isi dengan alamat dimana alat tsb dipasang.')
+    device_id = models.UUIDField(default=uuid.uuid4(), editable=False)
+    lokasi = models.TextField('Lokasi', help_text='Isi dengan alamat dimana perangkat tsb dipasang.')
     pemilik = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True)
     batas_normal = models.FloatField(default=0)
     batas_waspada = models.FloatField(default=0)
@@ -32,21 +32,21 @@ class DataSeries(BaseModel):
         (STATUS_BENCANA.siaga, 'siaga'),
         (STATUS_BENCANA.awas, 'awas')
     ]
-    alat = models.ForeignKey(Alat, on_delete=models.CASCADE)
-    jarak = models.FloatField(help_text='Jarak alat ke air (centimeter)')
+    perangkat = models.ForeignKey(Perangkat, on_delete=models.CASCADE)
+    jarak = models.FloatField(help_text='Jarak perangkat ke air (centimeter)')
     status = models.PositiveSmallIntegerField(choices=STATUS, default=STATUS_BENCANA.normal)
 
     def __str__(self):
-        return f'{self.alat} - {self.jarak}'
+        return f'{self.perangkat} - {self.jarak}'
 
     def set_status(self):
-        if self.jarak <= self.alat.batas_normal < self.alat.batas_waspada:
+        if self.perangkat.batas_normal >= self.jarak > self.perangkat.batas_waspada:
             self.status = STATUS_BENCANA.normal
-        elif self.jarak <= self.alat.batas_waspada < self.alat.batas_siaga:
+        elif self.perangkat.batas_waspada >= self.jarak > self.perangkat.batas_siaga:
             self.status = STATUS_BENCANA.waspada
-        elif self.jarak <= self.alat.batas_siaga < self.alat.batas_awas:
+        elif self.perangkat.batas_siaga >= self.jarak > self.perangkat.batas_awas:
             self.status = STATUS_BENCANA.siaga
-        elif self.jarak <= self.alat.batas_awas:
+        elif self.jarak <= self.perangkat.batas_awas:
             self.status = STATUS_BENCANA.awas
         else:
             self.status = STATUS_BENCANA.normal

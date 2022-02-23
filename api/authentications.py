@@ -2,7 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ValidationError
 from rest_framework import authentication
 from rest_framework import exceptions, HTTP_HEADER_ENCODING
-from alat.models import Alat
+from perangkat.models import Perangkat
 
 
 class DeviceAPIAuthentication(authentication.BaseAuthentication):
@@ -19,7 +19,7 @@ class DeviceAPIAuthentication(authentication.BaseAuthentication):
             raise exceptions.AuthenticationFailed('Kesalahan dalam Authorization Device Id')
 
         try:
-            if not Alat.objects.filter(unique_id=raw_token.decode('utf8')).exists():
+            if not Perangkat.objects.filter(device_id=raw_token.decode('utf8')).exists():
                 raise exceptions.AuthenticationFailed('Device Id tidak valid')
         except ValidationError:
             raise exceptions.AuthenticationFailed('Device Id tidak valid')

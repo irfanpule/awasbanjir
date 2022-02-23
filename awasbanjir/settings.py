@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'warga',
-    'alat',
+    'perangkat',
     'api',
 
     'rest_framework',
