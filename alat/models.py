@@ -38,3 +38,16 @@ class DataSeries(BaseModel):
 
     def __str__(self):
         return f'{self.alat} - {self.jarak}'
+
+    def set_status(self):
+        if self.jarak <= self.alat.batas_normal < self.alat.batas_waspada:
+            self.status = STATUS_BENCANA.normal
+        elif self.jarak <= self.alat.batas_waspada < self.alat.batas_siaga:
+            self.status = STATUS_BENCANA.waspada
+        elif self.jarak <= self.alat.batas_siaga < self.alat.batas_awas:
+            self.status = STATUS_BENCANA.siaga
+        elif self.jarak <= self.alat.batas_awas:
+            self.status = STATUS_BENCANA.awas
+        else:
+            self.status = STATUS_BENCANA.normal
+        self.save()
