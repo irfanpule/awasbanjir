@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     'warga',
     'alat',
+    'api',
+
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
