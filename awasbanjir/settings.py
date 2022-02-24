@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-sayqwr@$4(l3msm^+=^8j$_lqa83eczov@7&4-)wz+(7rt_d0w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -128,4 +128,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-SERVER_KEY = "serverKey123)(*"
+
+TELEGRAM_API_ID = None
+TELEGRAM_API_HASH = None
+TELEGRAM_PHONE = None
+TELEGRAM_BOT_TOKEN = None
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass

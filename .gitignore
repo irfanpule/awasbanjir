@@ -40,3 +40,6 @@ ghostdriver.log
 ## sqlite
 *.sqlite3
 .idea/
+
+*.session
+*.session-journal

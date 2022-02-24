@@ -40,9 +40,7 @@ class DataSeries(BaseModel):
         return f'{self.perangkat} - {self.jarak}'
 
     def set_status(self):
-        if self.perangkat.batas_normal >= self.jarak > self.perangkat.batas_waspada:
-            self.status = STATUS_BENCANA.normal
-        elif self.perangkat.batas_waspada >= self.jarak > self.perangkat.batas_siaga:
+        if self.perangkat.batas_waspada >= self.jarak > self.perangkat.batas_siaga:
             self.status = STATUS_BENCANA.waspada
         elif self.perangkat.batas_siaga >= self.jarak > self.perangkat.batas_awas:
             self.status = STATUS_BENCANA.siaga
