@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awas Banjir - {{ title_page }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% if messages %}
+        {% for message in messages %}
+            {% include 'website/components/alert.html' %}
+        {% endfor %}
+    {% endif %}
+    {% include 'website/components/header_nav.html' %}
+    <div class="container mx-auto">
+        {% block content %} {% endblock %}
+    </div>
+    <script>
+        document.querySelector(".close-alert").addEventListener("click", () => {
+            let alertMessage = document.getElementById("alert-message");
+            alertMessage.style.display = "none";
+        })
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

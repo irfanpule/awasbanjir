@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'warga',
     'perangkat',
     'api',
+    'website',
 
     'rest_framework',
 ]
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'awasbanjir.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [BASE_DIR / 'website/templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
