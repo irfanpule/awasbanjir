@@ -1,0 +1,6 @@
+{% extends 'website/master.html' %}
+{% block content %}
+    {% for object in page_obj %}
+          {{ object.id }} {{ object.nama }}
+    {% endfor %}
+{% endblock %}

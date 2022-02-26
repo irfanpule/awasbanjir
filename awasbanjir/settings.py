@@ -135,6 +135,9 @@ TELEGRAM_API_HASH = None
 TELEGRAM_PHONE = None
 TELEGRAM_BOT_TOKEN = None
 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 try:
     from .local_settings import *
 except ImportError:

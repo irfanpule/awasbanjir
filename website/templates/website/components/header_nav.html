@@ -12,16 +12,21 @@
                 </div>
                 <!-- Primary Navbar items -->
                 <div class="hidden md:flex items-center space-x-1">
-                    <a href="#" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-semibold">Pantau</a>
-                    <a href="#" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-semibold">Tentang</a>
+                    <a href="#" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">Perangkat</a>
+                    <a href="#" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">Warga</a>
+                    <a href="#" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">Pantau</a>
+                    <a href="#" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">Tentang</a>
                 </div>
             </div>
             <!-- Secondary Navbar items -->
             <div class="hidden md:flex items-center space-x-3 ">
-                <a href="{% url 'login' %}"
-                   class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-500 hover:text-white transition duration-300">Masuk</a>
-                <a href="{% url 'website:signup' %}"
-                   class="py-2 px-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-400 transition duration-300">Daftar</a>
+                {% if user.is_authenticated %}
+                    <a class="px-5 py-2 text-sm font-medium text-gray-500 bg-gray-100 rounded-lg" href="#"> {{ user.username }} </a>
+                    <a class="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg" href="{% url 'logout' %}"> Keluar </a>
+                {% else %}
+                    <a class="px-5 py-2 text-sm font-medium text-gray-500 bg-gray-100 rounded-lg" href="{% url 'login' %}"> Masuk </a>
+                    <a class="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg" href="{% url 'website:signup' %}"> Daftar </a>
+                {% endif %}
             </div>
             <!-- Mobile menu button -->
             <div class="md:hidden flex items-center">
