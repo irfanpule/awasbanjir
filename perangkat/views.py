@@ -20,13 +20,20 @@ class PerangkatListView(ContextTitleMixin, ListView):
 class PerangkatCrateView(ContextTitleMixin, CreateView):
     model = Perangkat
     template_name = 'website/form.html'
-    fields = '__all__'
+    fields = ['nama', 'tipe', 'lokasi', 'batas_waspada', 'batas_siaga', 'batas_awas']
     title_page = "Tambah Data Perangkat"
 
     def post(self, request, *args, **kwargs):
-        post = super().post(request, *args, **kwargs)
-        messages.success(request, "Berhasil tambah data perangkat")
-        return post
+        form = self.get_form()
+        if form.is_valid():
+            perangkat = form.save()
+            perangkat.pemilik = request.user
+            perangkat.save()
+            messages.success(request, "Berhasil tambah data perangkat")
+            return self.form_valid(form)
+        else:
+            messages.error(self.request, 'Terjadi masalah, cek kembali isian pada form.')
+            return self.form_invalid(form)
 
     def get_success_url(self):
         return reverse("perangkat:list")

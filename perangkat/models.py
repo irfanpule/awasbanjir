@@ -16,10 +16,10 @@ class Perangkat(BaseModel):
     device_id = models.UUIDField(default=uuid.uuid4(), editable=False)
     lokasi = models.TextField('Lokasi', help_text='Isi dengan alamat dimana perangkat tsb dipasang.')
     pemilik = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True)
-    batas_normal = models.FloatField(default=0)
-    batas_waspada = models.FloatField(default=0)
-    batas_siaga = models.FloatField(default=0)
-    batas_awas = models.FloatField(default=0)
+    batas_normal = models.FloatField(default=250, help_text='Diisi dalam satuan centimeter (cm)')
+    batas_waspada = models.FloatField(default=0, help_text='Diisi dalam satuan centimeter (cm)')
+    batas_siaga = models.FloatField(default=0, help_text='Diisi dalam satuan centimeter (cm)')
+    batas_awas = models.FloatField(default=0, help_text='Diisi dalam satuan centimeter (cm)')
 
     def __str__(self):
         return self.nama

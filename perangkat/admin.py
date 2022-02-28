@@ -3,7 +3,7 @@ from .models import Perangkat, DataSeries
 
 
 class AdminPerangkat(admin.ModelAdmin):
-    list_display = ('nama', 'device_id', 'tipe', 'lokasi')
+    list_display = ('nama', 'device_id', 'tipe', 'lokasi', 'pemilik')
     search_fields = ('nama', 'device_id')
 
 
