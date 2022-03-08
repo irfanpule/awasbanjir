@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'perangkat',
     'api',
     'website',
+    'mqtt',
 
     'rest_framework',
 ]
