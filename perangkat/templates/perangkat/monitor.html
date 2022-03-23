@@ -1,0 +1,91 @@
+{% extends 'website/master.html' %}
+{% block content %}
+    <div class="container px-5 py-5">
+        <section>
+            <div class="py-16 lg:items-end lg:justify-between lg:flex sm:px-6 lg:px-8">
+                <h2 class="max-w-xl text-2xl font-bold sm:text-3xl">
+                    {{ title_page }}
+                </h2>
+            </div>
+        </section>
+
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const data = {
+            labels: [],
+            datasets: [{
+                label: 'Data Hari ini',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [],
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+
+        function loadContent() {
+            var xhr = new XMLHttpRequest();
+            var url = "/devices/get-data-series/{{ object.device_id }}";
+
+            xhr.onerror = function () {
+                alert("Gagal mengambil data");
+            };
+
+            xhr.onloadend = function () {
+                if (this.responseText !== "") {
+                    var data = JSON.parse(this.responseText);
+                    console.log(data);
+                    myChart.data.labels = data.label_series;
+                    myChart.data.datasets[0].data = data.data_series;
+                    myChart.update();
+                }
+            };
+
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+
+        function getLastData() {
+            var xhr = new XMLHttpRequest();
+            var url = "/devices/get-last-data/{{ object.device_id }}";
+
+            xhr.onerror = function () {
+                alert("Gagal mengambil data");
+            };
+
+            xhr.onloadend = function () {
+                if (this.responseText !== "") {
+                    var data = JSON.parse(this.responseText);
+                    console.log(data);
+                    myChart.data.labels.push(data.label_series);
+                    myChart.data.datasets[0].data.push(data.data_series);
+                    myChart.update();
+                }
+            };
+
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+
+        loadContent();
+        setInterval(loadContent, 1000);
+
+    </script>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 import asyncio
-import threading
+
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
 from django.core.cache import cache

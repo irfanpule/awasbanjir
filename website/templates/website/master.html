@@ -18,12 +18,15 @@
     <div class="container mx-auto">
         {% block content %} {% endblock %}
     </div>
+
+    {% if messages %}
     <script>
         document.querySelector(".close-alert").addEventListener("click", () => {
             let alertMessage = document.getElementById("alert-message");
             alertMessage.style.display = "none";
         })
     </script>
+    {% endif %}
     {% block extra_js %}{% endblock %}
 </body>
 </html>
