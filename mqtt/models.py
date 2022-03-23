@@ -9,3 +9,7 @@ class MQTTBroker(models.Model):
 
     def __str__(self):
         return self.broker
+
+    @classmethod
+    def get_config(cls):
+        return cls.objects.last()

@@ -10,14 +10,11 @@ from django.core.exceptions import ValidationError
 from api.serializers import DataSeriesSerializer
 from perangkat.models import Perangkat
 from warga.models import Warga
+from mqtt.models import MQTTBroker
 from awasbanjir import notifications
 
 
-broker = 'broker.emqx.io'
-port = 1883
-topic = "awas_banjir_bagelen"
-username = 'nanonoa'
-password = 'best'
+topic = "awas/banjir/senddata"
 
 
 def connect_mqtt() -> mqtt_client:
@@ -26,11 +23,14 @@ def connect_mqtt() -> mqtt_client:
             print("Connected to MQTT Broker! ")
         else:
             print("Failed to connect, return code %d\n", rc)
+    broker_server = MQTTBroker.get_config()
+    if not broker_server:
+        raise ValidationError("Broker server not set")
 
     client = mqtt_client.Client()
-    client.username_pw_set(username, password)
+    client.username_pw_set(broker_server.username, broker_server.password)
     client.on_connect = on_connect
-    client.connect(broker, port)
+    client.connect(broker_server.broker, broker_server.port)
     return client
 
 

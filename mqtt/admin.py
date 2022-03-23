@@ -1,3 +1,10 @@
 from django.contrib import admin
+from mqtt.models import MQTTBroker
 
-# Register your models here.
+
+class AdminMQTTBroker(admin.ModelAdmin):
+    list_display = ('broker', 'port', 'username')
+    search_fields = ('broker', 'username')
+
+
+admin.site.register(MQTTBroker, AdminMQTTBroker)
