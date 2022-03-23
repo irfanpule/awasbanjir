@@ -4,6 +4,7 @@ import asyncio
 from paho.mqtt import client as mqtt_client
 from json.decoder import JSONDecodeError
 
+from django.conf import settings
 from django.core.cache import cache
 from django.core.management.base import BaseCommand
 from django.core.exceptions import ValidationError
@@ -14,7 +15,7 @@ from mqtt.models import MQTTBroker
 from awasbanjir import notifications
 
 
-topic = "awas/banjir/senddata"
+topic = settings.TOPICS["received_data"]
 
 
 def connect_mqtt() -> mqtt_client:
