@@ -11,28 +11,11 @@ from django.core.exceptions import ValidationError
 from api.serializers import DataSeriesSerializer
 from perangkat.models import Perangkat
 from warga.models import Warga
-from mqtt.models import MQTTBroker
+from mqtt.utils import connect_mqtt
 from awasbanjir import notifications
 
 
-topic = settings.TOPICS["received_data"]
-
-
-def connect_mqtt() -> mqtt_client:
-    def on_connect(client, userdata, flags, rc):
-        if rc == 0:
-            print("Connected to MQTT Broker! ")
-        else:
-            print("Failed to connect, return code %d\n", rc)
-    broker_server = MQTTBroker.get_config()
-    if not broker_server:
-        raise ValidationError("Broker server not set")
-
-    client = mqtt_client.Client()
-    client.username_pw_set(broker_server.username, broker_server.password)
-    client.on_connect = on_connect
-    client.connect(broker_server.broker, broker_server.port)
-    return client
+TOPIC = settings.TOPICS["received_data"]
 
 
 def subscribe(client: mqtt_client):
@@ -76,7 +59,7 @@ def subscribe(client: mqtt_client):
         else:
             print("data not valid")
 
-    client.subscribe(topic, qos=1)
+    client.subscribe(TOPIC, qos=1)
     client.on_message = on_message
 
 
