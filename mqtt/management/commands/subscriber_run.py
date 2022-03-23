@@ -39,23 +39,25 @@ def subscribe(client: mqtt_client):
         if serializer.is_valid():
             try:
                 perangkat = Perangkat.objects.filter(device_id=data_dict['device_id']).first()
-                if perangkat:
-                    data_series = serializer.save(perangkat=perangkat)
-                    data_series.set_status()
-                    status = get_device_cache(data_dict['device_id'], data_series.status)
-                    print(status, data_series.status)
-                    if status != data_series.status:
-                        print("kirim notif ", data_series.get_status_display())
-                        cache.set(data_dict['device_id'], data_series.status)
+            except ValidationError:
+                perangkat = None
+                print("UUID tidak ditemukan")
+
+            if perangkat:
+                data_series = serializer.save(perangkat=perangkat)
+                data_series.set_status()
+                status = get_device_cache(data_dict['device_id'], data_series.status)
+                print(status, data_series.status)
+                if status != data_series.status:
+                    print("kirim notif ", data_series.get_status_display())
+                    cache.set(data_dict['device_id'], data_series.status)
+                    if settings.NOTIFICATION_ON:
                         for warga in Warga.objects.all():
                             n = notifications.send_telegram_personal(
                                 warga.no_hp, f"Awas Banjir!, status {data_series.get_status_display()}")
                             asyncio.run(n)
-                else:
-                    print("gak ada perangkat")
-            except ValidationError:
-                print("UUID tidak ditemukan")
-
+            else:
+                print("gak ada perangkat")
         else:
             print("data not valid")
 

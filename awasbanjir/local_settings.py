@@ -7,3 +7,5 @@ TOPICS = {
     "received_data": "awas/banjir/senddata",
     "send_config": "awas/banjir/config"
 }
+
+NOTIFICATION_ON = False
