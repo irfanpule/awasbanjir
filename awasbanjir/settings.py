@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'mqtt',
 
     'rest_framework',
+    'mapbox_location_field',
 ]
 
 MIDDLEWARE = [
@@ -138,6 +139,10 @@ TELEGRAM_BOT_TOKEN = None
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MAPBOX_KEY = "pk.eyJ1IjoiaXJmYW5wdWxlIiwiYSI6ImNsMTRwMXg2bTBjNmozY3NnM2FhcWY0c2QifQ.zxmoQWTjXEtTxx907Zb8Zg"
 
 try:
     from .local_settings import *

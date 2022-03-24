@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 
 from awasbanjir.models import BaseModel
 from mqtt.publisher import publish
+from mapbox_location_field.models import LocationField
 
 
 STATUS_BENCANA = namedtuple(
@@ -19,7 +20,7 @@ class Perangkat(BaseModel):
     nama = models.CharField('Nama', max_length=220, help_text='Mis. Pendeteksi Banjir')
     tipe = models.CharField('Tipe', max_length=100, null=True, blank=True, help_text='Mis. Arduino Uno')
     device_id = models.UUIDField(default=uuid.uuid4(), editable=False)
-    lokasi = models.TextField('Lokasi', help_text='Isi dengan alamat dimana perangkat tsb dipasang.')
+    lokasi = LocationField(map_attrs={"center": [115.64105190308777, -0.5163104314298437], "marker_color": "blue", "zoom": 2})
     pemilik = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True)
     batas_normal = models.FloatField(default=250, help_text='Diisi dalam satuan centimeter (cm)')
     batas_waspada = models.FloatField(default=0, help_text='Diisi dalam satuan centimeter (cm)')

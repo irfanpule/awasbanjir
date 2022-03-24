@@ -24,7 +24,7 @@ class PerangkatListView(ContextTitleMixin, ListView):
 class PerangkatCrateView(ContextTitleMixin, CreateView):
     model = Perangkat
     template_name = 'website/form.html'
-    fields = ['nama', 'tipe', 'lokasi', 'batas_waspada', 'batas_siaga', 'batas_awas']
+    fields = ['nama', 'tipe', 'lokasi', 'batas_waspada', 'batas_siaga', 'batas_awas', 'beep_alert']
     title_page = "Tambah Data Perangkat"
 
     def post(self, request, *args, **kwargs):
@@ -47,7 +47,7 @@ class PerangkatCrateView(ContextTitleMixin, CreateView):
 class PerangkatUpdateView(ContextTitleMixin, UpdateView):
     model = Perangkat
     template_name = 'website/form.html'
-    fields = '__all__'
+    fields = ['nama', 'tipe', 'lokasi', 'batas_waspada', 'batas_siaga', 'batas_awas', 'beep_alert']
     title_page = "Edit Data Perangkat"
 
     def post(self, request, *args, **kwargs):

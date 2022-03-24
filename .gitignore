@@ -43,3 +43,6 @@ ghostdriver.log
 
 *.session
 *.session-journal
+
+## django
+static/

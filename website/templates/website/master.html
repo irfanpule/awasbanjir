@@ -1,3 +1,7 @@
+{% load mapbox_location_field_tags %}
+{% location_field_includes %}
+{% include_jquery %}
+
 <!doctype html>
 <html>
 <head>
@@ -6,7 +10,13 @@
     <title>Awas Banjir - {{ title_page }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin=""/>
+
     {% block extra_css %}{% endblock %}
+    {{form.media}}
 </head>
 <body>
     {% if messages %}
