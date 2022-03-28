@@ -25,4 +25,5 @@ urlpatterns = [
     path('', include('website.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('devices/', include('perangkat.urls')),
+    path('mqtt/', include('mqtt.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

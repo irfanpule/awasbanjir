@@ -12,4 +12,7 @@ class MQTTBroker(models.Model):
 
     @classmethod
     def get_config(cls):
-        return cls.objects.last()
+        obj = cls.objects.last()
+        if not obj:
+            obj = cls.objects.create(broker='', port=1883, username='', password='')
+        return obj
