@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
+from django.http import JsonResponse
+from perangkat.models import Perangkat
 
 
 def index(request):
@@ -15,3 +17,8 @@ def signup(request):
         'title_page': "Daftar"
     }
     return render(request, 'website/signup.html', context)
+
+
+def get_point_devices(request):
+    geojson = Perangkat.to_geojson(Perangkat.objects.all())
+    return JsonResponse(geojson, status=200)

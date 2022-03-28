@@ -44,6 +44,32 @@ class Perangkat(BaseModel):
             msg=msg
         )
 
+    @classmethod
+    def to_geojson(cls, perangkats):
+        features = []
+        for perangkat in perangkats:
+            features.append({
+                "id": perangkat.id,
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": list(perangkat.lokasi)
+                },
+                "properties": {
+                    'nama': perangkat.nama,
+                    'tipe': perangkat.tipe,
+                    'pemilik': perangkat.pemilik.username,
+                    'bawas_waspada': perangkat.batas_waspada
+                }
+            })
+
+        geojson_feature = {
+            "type": "FeatureCollection",
+            "features": features
+        }
+
+        return geojson_feature
+
 
 class DataSeries(BaseModel):
     STATUS = [
