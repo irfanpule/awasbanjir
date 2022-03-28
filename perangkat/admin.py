@@ -1,9 +1,10 @@
 from django.contrib import admin
 from .models import Perangkat, DataSeries
+from mapbox_location_field.admin import MapAdmin
 
 
-class AdminPerangkat(admin.ModelAdmin):
-    list_display = ('nama', 'device_id', 'tipe', 'lokasi', 'pemilik')
+class AdminPerangkat(MapAdmin):
+    list_display = ('nama', 'device_id', 'tipe', 'pemilik')
     search_fields = ('nama', 'device_id')
 
 
