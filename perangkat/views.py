@@ -18,6 +18,12 @@ class PerangkatListView(ContextTitleMixin, ListView):
     model = Perangkat
     paginate_by = 12
     title_page = 'Daftar Perangkat'
+    for_public = False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['for_public'] = self.for_public
+        return context
 
     def get_queryset(self):
         return self.model.objects.filter(pemilik=self.request.user)
@@ -69,7 +75,6 @@ class PerangkatUpdateView(ContextTitleMixin, UpdateView):
         return reverse("perangkat:list")
 
 
-@method_decorator(login_required, name='dispatch')
 class PantauView(ContextTitleMixin, DetailView):
     model = Perangkat
     template_name = 'perangkat/monitor.html'
@@ -85,6 +90,14 @@ class PantauView(ContextTitleMixin, DetailView):
         print(context['label_series'])
         context['jarak_series'] = [data.jarak for data in data_series]
         return context
+
+
+class PantautListView(PerangkatListView):
+    template_name = 'perangkat/pantau_list.html'
+    for_public = True
+
+    def get_queryset(self):
+        return self.model.objects.all()
 
 
 def get_data_series(request, device_id):

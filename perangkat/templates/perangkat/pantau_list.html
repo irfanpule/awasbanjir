@@ -1,0 +1,25 @@
+{% extends 'website/master.html' %}
+{% block content %}
+    <div class="container px-5 py-5">
+        <section>
+            <div class="py-16 lg:items-end lg:justify-between lg:flex sm:px-6 lg:px-8">
+                <h2 class="max-w-xl text-2xl font-bold sm:text-3xl">
+                    {{ title_page }}
+                </h2>
+            </div>
+        </section>
+
+        {% if page_obj %}
+            <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for object in page_obj %}
+                    {% include 'website/components/card_perangkat.html' %}
+                {% endfor %}
+            </div>
+            <div class="py-10">
+                {% include 'website/components/pagination.html' %}
+            </div>
+        {% else %}
+            {% include 'website/components/empty_state.html' %}
+        {% endif %}
+    </div>
+{% endblock %}

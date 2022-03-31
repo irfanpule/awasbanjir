@@ -1,5 +1,5 @@
 <div>
-    {% if user.is_superuser %}
+    {% if user.is_superuser and not for_public %}
         <div class="flex -space-x-6 hover:space-x-1 float-right">
 
             {% if object.pemilik == user %}
@@ -34,7 +34,7 @@
         </div>
     {% endif %}
 
-    <a class="relative block p-8 overflow-hidden border border-gray-100 rounded-lg bg-white" href="#">
+    <a class="relative block p-8 overflow-hidden border border-gray-100 rounded-lg bg-white" href="{% url 'perangkat:monitor' object.id %}">
         <span class="absolute inset-x-0 bottom-0 h-2  bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
         <div class="justify-between sm:flex">
             <div>
@@ -46,8 +46,12 @@
 
         <div class="mt-4 sm:pr-8">
             <p class="text-sm text-gray-500">
-                Device ID: <br>
-                {{ object.device_id }} <br>
+                {% if not for_public %}
+                    Device ID: <br>
+                    {{ object.device_id }} <br>
+                {% endif %}
+                Pemilik: {{ object.pemilik }} <br>
+                Batas Waspada: {{ object.batas_waspada }} <br>
             </p>
         </div>
     </a>

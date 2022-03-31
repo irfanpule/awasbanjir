@@ -16,7 +16,7 @@
                         <a href="{% url 'perangkat:list' %}" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">Perangkat</a>
                     {% endif %}
                     <a href="#" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">Warga</a>
-                    <a href="#" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">Pantau</a>
+                    <a href="{% url 'perangkat:monitor_list' %}" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">Pantau</a>
                     {% if user.is_superuser %}
                         <a href="{% url 'mqtt:mqtt_server_config' %}" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">MQTT Config</a>
                     {% endif %}
