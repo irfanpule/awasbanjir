@@ -19,6 +19,9 @@ class PerangkatListView(ContextTitleMixin, ListView):
     paginate_by = 12
     title_page = 'Daftar Perangkat'
 
+    def get_queryset(self):
+        return self.model.objects.filter(pemilik=self.request.user)
+
 
 @method_decorator(login_required, name='dispatch')
 class PerangkatCrateView(ContextTitleMixin, CreateView):
