@@ -5,7 +5,7 @@ from django.views.generic import DetailView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib import messages
 
@@ -49,6 +49,13 @@ class PerangkatUpdateView(ContextTitleMixin, UpdateView):
     template_name = 'website/form.html'
     fields = ['nama', 'tipe', 'lokasi', 'batas_waspada', 'batas_siaga', 'batas_awas', 'beep_alert']
     title_page = "Edit Data Perangkat"
+
+    def dispatch(self, request, *args, **kwargs):
+        perangkat = self.get_object()
+        if perangkat.pemilik != request.user:
+            messages.warning(request, f"Anda tidak punya hak untuk mengubah data {perangkat.nama}")
+            return redirect("perangkat:list")
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         post = super().post(request, *args, **kwargs)
