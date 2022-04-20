@@ -104,7 +104,7 @@ def get_data_series(request, device_id):
     perangkat = get_object_or_404(Perangkat, device_id=device_id)
     data_series = perangkat.dataseries_set.filter(created_at__date=datetime.now().date())
     context = {
-        'label_series': [str(data.created_at.strftime("%M:%S")) for data in data_series],
+        'label_series': [str(data.created_at.strftime("%H:%M:%S")) for data in data_series],
         'data_series': [data.jarak for data in data_series]
     }
     return JsonResponse(data=context, status=200)
