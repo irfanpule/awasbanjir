@@ -13,12 +13,12 @@ from perangkat.models import Perangkat
 from awasbanjir.mixin import ContextTitleMixin
 
 
-@method_decorator(login_required, name='dispatch')
-class PerangkatListView(ContextTitleMixin, ListView):
+class PantautListView(ContextTitleMixin, ListView):
     model = Perangkat
     paginate_by = 12
     title_page = 'Daftar Perangkat'
-    for_public = False
+    for_public = True
+    template_name = 'perangkat/pantau_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,7 +26,7 @@ class PerangkatListView(ContextTitleMixin, ListView):
         return context
 
     def get_queryset(self):
-        return self.model.objects.filter(pemilik=self.request.user)
+        return self.model.objects.all()
 
 
 @method_decorator(login_required, name='dispatch')
@@ -92,12 +92,13 @@ class PantauView(ContextTitleMixin, DetailView):
         return context
 
 
-class PantautListView(PerangkatListView):
-    template_name = 'perangkat/pantau_list.html'
-    for_public = True
+@method_decorator(login_required, name='dispatch')
+class PerangkatListView(PantautListView):
+    for_public = False
+    template_name = 'perangkat/perangkat_list.html'
 
     def get_queryset(self):
-        return self.model.objects.all()
+        return self.model.objects.filter(pemilik=self.request.user)
 
 
 def get_data_series(request, device_id):
