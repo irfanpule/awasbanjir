@@ -83,13 +83,13 @@ class PantauView(ContextTitleMixin, DetailView):
     def get_title_page(self):
         return f"Pantau data {self.object.nama}"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        data_series = self.object.dataseries_set.filter(created_at__date=datetime.now().date())
-        context['label_series'] = [str(data.created_at.strftime("%M:%S")) for data in data_series]
-        print(context['label_series'])
-        context['jarak_series'] = [data.jarak for data in data_series]
-        return context
+
+class RiwayatView(PantauView):
+    template_name = 'perangkat/riwayat.html'
+    title_page = "Riwayat"
+
+    def get_title_page(self):
+        return f"Riwayat data {self.object.nama}"
 
 
 @method_decorator(login_required, name='dispatch')
@@ -101,22 +101,51 @@ class PerangkatListView(PantautListView):
         return self.model.objects.filter(pemilik=self.request.user)
 
 
-def get_data_series(request, device_id):
-    perangkat = get_object_or_404(Perangkat, device_id=device_id)
-    data_series = perangkat.dataseries_set.filter(created_at__date=datetime.now().date())
-    context = {
-        'label_series': [str(data.created_at.strftime("%H:%M:%S")) for data in data_series],
-        'data_series': [data.jarak for data in data_series]
-    }
-    return JsonResponse(data=context, status=200)
+class GetDataSeriesView(DetailView):
+    model = Perangkat
+    slug_field = 'device_id'
+    slug_url_kwarg = 'device_id'
+    str_date_char_label = "%H:%M:%S"
+    start_date = datetime.now()
+    end_date = datetime.now()
+
+    def get(self, request, *args, **kwargs):
+        data_series = self.get_queryset_data_series()
+        context = {
+            'label_series': [str(data.created_at.strftime(self.str_date_char_label)) for data in data_series],
+            'data_series': [data.jarak for data in data_series]
+        }
+        return JsonResponse(data=context, status=200)
+
+    def get_queryset_data_series(self):
+        return self.get_object().dataseries_set.filter(created_at__date=self.end_date.date())
 
 
-def get_last_data(request, device_id):
-    perangkat = get_object_or_404(Perangkat, device_id=device_id)
-    data = perangkat.dataseries_set.filter(created_at__date=datetime.now().date()).last()
-    context = {
-        'label_series': str(data.created_at.strftime("%M:%S")),
-        'data_series': data.jarak
-    }
-    return JsonResponse(data=context, status=200)
+class GetDataSeriesHistoryView(GetDataSeriesView):
+    model = Perangkat
+    str_date_char_label = "%d %b %Y, %H:%M:%S"
 
+    def dispatch(self, request, *args, **kwargs):
+        start_date_str = self.request.GET.get('start_date', '')
+        end_date_str = self.request.GET.get('end_date', '')
+        if start_date_str and end_date_str:
+            self.start_date = datetime.strptime(start_date_str, "%d-%m-%Y")
+            self.end_date = datetime.strptime(end_date_str, "%d-%m-%Y")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset_data_series(self):
+        return self.get_object().dataseries_set.filter(
+            created_at__range=[self.start_date.date(), self.end_date.date()])
+
+
+class GetLastDataView(GetDataSeriesView):
+    def get(self, request, *args, **kwargs):
+        data_series = self.get_queryset_data_series()
+        context = {
+            'label_series': str(data_series.created_at.strftime("%M:%S")),
+            'data_series': data_series.jarak
+        }
+        return JsonResponse(data=context, status=200)
+
+    def get_queryset_data_series(self):
+        return self.get_object().dataseries_set.filter(created_at__date=self.end_date.date())
