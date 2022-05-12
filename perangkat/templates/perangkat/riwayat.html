@@ -6,7 +6,8 @@
                 <h2 class="max-w-xl text-2xl font-bold sm:text-3xl">
                     {{ title_page }}
                 </h2>
-                <a href="{% url 'perangkat:history' object.id %}" class="inline-block px-5 py-3 mt-4 font-medium text-white bg-blue-600 rounded-lg sm:m-0">Lihat Riwayat</a>
+
+                {% include 'perangkat/form_filter.html' %}
             </div>
         </section>
 
@@ -42,7 +43,7 @@
 
         function loadContent() {
             var xhr = new XMLHttpRequest();
-            var url = "/devices/get-data-series/{{ object.device_id }}";
+            var url = "/devices/history/get-data-series/{{ object.device_id }}?start_date=23-02-2022&end_date=22-03-2022";
 
             xhr.onerror = function () {
                 alert("Gagal mengambil data");
@@ -52,6 +53,7 @@
                 if (this.responseText !== "") {
                     var data = JSON.parse(this.responseText);
                     console.log(data);
+                    myChart.data.datasets[0].label = "Data Tanggal ...";
                     myChart.data.labels = data.label_series;
                     myChart.data.datasets[0].data = data.data_series;
                     myChart.update();
@@ -62,30 +64,7 @@
             xhr.send();
         }
 
-        function getLastData() {
-            var xhr = new XMLHttpRequest();
-            var url = "/devices/get-last-data/{{ object.device_id }}";
-
-            xhr.onerror = function () {
-                alert("Gagal mengambil data");
-            };
-
-            xhr.onloadend = function () {
-                if (this.responseText !== "") {
-                    var data = JSON.parse(this.responseText);
-                    console.log(data);
-                    myChart.data.labels.push(data.label_series);
-                    myChart.data.datasets[0].data.push(data.data_series);
-                    myChart.update();
-                }
-            };
-
-            xhr.open("GET", url, true);
-            xhr.send();
-        }
-
         loadContent();
-        setInterval(loadContent, 2000);
 
     </script>
 
