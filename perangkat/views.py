@@ -5,7 +5,7 @@ from django.views.generic import DetailView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.contrib import messages
 
@@ -135,7 +135,7 @@ class GetDataSeriesHistoryView(GetDataSeriesView):
 
     def get_queryset_data_series(self):
         return self.get_object().dataseries_set.filter(
-            created_at__range=[self.start_date.date(), self.end_date.date()])
+            created_at__date__gte=self.start_date, created_at__date__lte=self.end_date)
 
 
 class GetLastDataView(GetDataSeriesView):

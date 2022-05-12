@@ -1,4 +1,9 @@
 {% extends 'website/master.html' %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock %}
+
 {% block content %}
     <div class="container px-5 py-5">
         <section>
@@ -18,6 +23,11 @@
 {% endblock %}
 
 {% block extra_js %}
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const data = {
@@ -41,9 +51,9 @@
             config
         );
 
-        function loadContent() {
+        function loadContent(start, end) {
             var xhr = new XMLHttpRequest();
-            var url = "/devices/history/get-data-series/{{ object.device_id }}?start_date=23-02-2022&end_date=22-03-2022";
+            var url = "/devices/history/get-data-series/{{ object.device_id }}?start_date="+ start +"&end_date="+ end;
 
             xhr.onerror = function () {
                 alert("Gagal mengambil data");
@@ -53,7 +63,6 @@
                 if (this.responseText !== "") {
                     var data = JSON.parse(this.responseText);
                     console.log(data);
-                    myChart.data.datasets[0].label = "Data Tanggal ...";
                     myChart.data.labels = data.label_series;
                     myChart.data.datasets[0].data = data.data_series;
                     myChart.update();
@@ -64,8 +73,13 @@
             xhr.send();
         }
 
-        loadContent();
-
+        $(function() {
+          $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+          }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+            loadContent(start.format('DD-MM-YYYY'), end.format('DD-MM-YYYY'))
+          });
+        });
     </script>
-
 {% endblock %}
