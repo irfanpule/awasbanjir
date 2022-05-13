@@ -1,5 +1,4 @@
 import json
-import asyncio
 
 from paho.mqtt import client as mqtt_client
 from json.decoder import JSONDecodeError
@@ -10,7 +9,6 @@ from django.core.management.base import BaseCommand
 from django.core.exceptions import ValidationError
 from api.serializers import DataSeriesSerializer
 from perangkat.models import Perangkat
-from warga.models import Warga
 from mqtt.utils import connect_mqtt
 from awasbanjir import notifications
 
@@ -46,16 +44,23 @@ def subscribe(client: mqtt_client):
             if perangkat:
                 data_series = serializer.save(perangkat=perangkat)
                 data_series.set_status()
-                status = get_device_cache(data_dict['device_id'], data_series.status)
-                print(status, data_series.status)
-                if status != data_series.status:
-                    print("kirim notif ", data_series.get_status_display())
-                    cache.set(data_dict['device_id'], data_series.status)
+                status = get_device_cache(data_dict['device_id'], data_series.get_status_display())
+                print(status, data_series.get_status_display())
+                if status != data_series.get_status_display():
+                    cache.set(data_dict['device_id'], data_series.get_status_display())
                     if settings.NOTIFICATION_ON:
-                        for warga in Warga.objects.all():
-                            n = notifications.send_telegram_personal(
-                                warga.no_hp, f"Awas Banjir!, status {data_series.get_status_display()}")
-                            asyncio.run(n)
+                        print("kirim pesan")
+                        message = f"""**Awas Banjir!**
+                         
+Status: {data_series.get_status_display()}, 
+Perangkat: {perangkat.nama}, 
+Milik: {perangkat.pemilik},
+Lokasi: {perangkat.lokasi}
+                        """
+                        notifications.send_telegram_bot(
+                            settings.TELEGRAM_CHANNEL_TARGET,
+                            message
+                        )
             else:
                 print("gak ada perangkat")
         else:
