@@ -114,6 +114,7 @@ class GetDataSeriesView(DetailView):
     def get(self, request, *args, **kwargs):
         data_series = self.get_queryset_data_series()
         last_data = data_series.last()
+        print("last_data", last_data.created_at, last_data.jarak)
         context = {
             'label_series': [str(data.created_at.strftime(self.str_date_char_label)) for data in data_series],
             'data_series': [data.jarak for data in data_series],
