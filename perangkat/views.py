@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.views.generic.list import ListView
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DetailView
 from django.utils.decorators import method_decorator
@@ -8,6 +9,7 @@ from django.urls import reverse
 from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.contrib import messages
+from django.conf import settings
 
 from perangkat.models import Perangkat
 from awasbanjir.mixin import ContextTitleMixin
@@ -149,3 +151,13 @@ class GetLastDataView(GetDataSeriesView):
 
     def get_queryset_data_series(self):
         return self.get_object().dataseries_set.filter(created_at__date=self.end_date.date())
+
+
+class MonitorIntro(TemplateView):
+    template_name = 'perangkat/monitor_intro.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['telegram_username_channel'] = settings.TELEGRAM_CHANNEL_TARGET
+        return context
+

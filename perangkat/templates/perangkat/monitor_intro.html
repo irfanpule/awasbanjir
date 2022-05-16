@@ -1,0 +1,63 @@
+{% extends 'website/master.html' %}
+
+{% block content %}
+    <div class="container px-5 py-5">
+        <section>
+            <div class="max-w-screen-xl px-4 py-12 mx-auto sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h1
+                            class="text-3xl font-extrabold text-transparent sm:text-6xl bg-clip-text bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
+                    >
+                        Yuk Pantau Ketinggian air
+                    </h1>
+
+                    <p class="max-w-xl mx-auto mt-6 text-lg">
+                        Saat ini terdapat dua cara pemantuan:
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
+        <div>
+            <a class="relative block p-8 overflow-hidden border border-gray-100 rounded-lg bg-white" href="https://t.me/{{ telegram_username_channel }}" target="_blank">
+                <span class="absolute inset-x-0 bottom-0 h-2  bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
+                <div class="justify-between sm:flex">
+                    <div>
+                        <h5 class="text-xl font-bold text-gray-900">
+                            Telegram
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="mt-4 sm:pr-8">
+                    <p class="text-sm text-gray-500">
+                        Melakukan pemantuan melaui akun channel telegram. Dengan bergabung pada channel tersebut, kamu kan mendapatkan notifikasi dan detail informasi
+                        dari suatu perangkat yang sedang mengalami perubahan status. <b>Klik untuk bergabung ke channel AwasBanjirChannel!</b>
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a class="relative block p-8 overflow-hidden border border-gray-100 rounded-lg bg-white" href="{% url 'perangkat:monitor_list' %}">
+                <span class="absolute inset-x-0 bottom-0 h-2  bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
+                <div class="justify-between sm:flex">
+                    <div>
+                        <h5 class="text-xl font-bold text-gray-900">
+                            Live Graphic
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="mt-4 sm:pr-8">
+                    <p class="text-sm text-gray-500">
+                        Live Graphic adalah fitur pemantuan yang memperlihatkan naik turunnya graphic data perangkat secara live.
+                        Pada graphic tersebut memberikan info detail perangkat, status dan ketinggian air.
+                        <b>Klik untuk melihat daftar perangkat lalu menantau live graphic!</b>
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}
