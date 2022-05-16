@@ -20,7 +20,7 @@
                     {% if user.is_superuser %}
                         <a href="{% url 'mqtt:mqtt_server_config' %}" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">MQTT Config</a>
                     {% endif %}
-                    <a href="#" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">Tentang</a>
+                    <a href="{% url 'website:about' %}" class="py-4 px-2 text-gray-500 hover:border-b-4 hover:border-blue-500 hover:text-blue-500 font-medium">Tentang</a>
                 </div>
             </div>
             <!-- Secondary Navbar items -->
@@ -63,7 +63,7 @@
                 <a href="{% url 'perangkat:monitor_intro' %}" class="block text-sm px-2 py-4 px-5 text-gray-500 hover:text-white hover:bg-blue-500 font-semibold">Pantau</a>
             </li>
             <li>
-                <a href="#" class="block text-sm px-2 py-4 px-5 text-gray-500 hover:text-white hover:bg-blue-500 font-semibold">Tentang</a>
+                <a href="{% url 'website:about' %}" class="block text-sm px-2 py-4 px-5 text-gray-500 hover:text-white hover:bg-blue-500 font-semibold">Tentang</a>
             </li>
             <li>
                 <hr>

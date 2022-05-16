@@ -1,0 +1,45 @@
+{% extends 'website/master.html' %}
+
+
+{% block content %}
+    <div class="container px-5 py-5">
+        <section>
+            <div class="max-w-screen-xl px-4 py-12 mx-auto sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h1
+                            class="text-3xl font-extrabold text-transparent sm:text-6xl bg-clip-text bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
+                    >
+                        Tetang Awas Banjir
+                    </h1>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="container px-5 py-5">
+        <p>
+            <b>Awas Banjir</b> adalah sebuah sistem informasi untuk memantau dan mendeteksi terjadinya banjir.
+            Sistem ini terintegrasi dengan sebuah perangkat  yang dapat mengukur ketinggian air.
+            Perangkat tersebut dibangun menggunakan microcontroller <b>(NodeMCU ESP8266)</b> yang dipadukan dengan module ultrasonic.
+            Perangkat tersebut akan membaca ketinggian air lalu mengirimkan data ke sistem melalui protokol <b>MQTT</b> dengan melakukan pengecekan apakah ketinggian air sudah masuk dalam status <b>normal, waspada, awas, siaga.</b>
+        </p>
+        <br>
+        <p>
+            Sistem akan mengumpulkan semua data yang dikirimkan oleh perangkat, disimpan pada basis data terpusat sehingga dapat dilihat kembali riwayat dari data ketinggian air pada sebuah perangkat di suatu lokasi tertentu.
+            Awas Banjir akan mengirimkan pemberitahuan setiap terjadi perubahan status, misal dari normal ke waspada, dari waspada ke awas atau dari awas kembali ke normal.
+            Pemberitahuan akan dikirimkan ke pemilik perangkat atau orang-orang (warga) yang didaftarkan kontaknya oleh pemilik ke sistem Awas Banjir.
+        </p>
+        <br>
+        <p>
+            Selain itu pemilik atau pengunjung dapat memantau langsung pada halaman live pemantauan untuk melihat grafik dan perubahan status secara real-time.
+        </p>
+        <p>
+            Dengan adanya sistem dari Awas Banjir bisa membantu memberikan alert saat ketinggian air pada suatu sungai, waduk dsb sudah memasuki status tertentu. Dengan begitu warga di sekitar lokasi dapat bersiap-siap atau mengambil langkah bijak untuk bisa meminimalisir kerugian apabila banjir tersebut benar-benar terjadi.
+        </p>
+    </div>
+    <hr>
+    <div class="container px-5 py-10">
+        <h1 class="sm:text-2xl">Info pembelian perangkat</h1>
+        <p>Muhammad Arif Wicaksono, WA +62 896-3027-3904</p>
+    </div>
+
+{% endblock %}

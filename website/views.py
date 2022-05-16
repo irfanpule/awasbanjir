@@ -19,6 +19,12 @@ def signup(request):
     return render(request, 'website/signup.html', context)
 
 
+def about(request):
+    context = {
+        'title_page': "Tentang"
+    }
+    return render(request, 'website/about.html', context)
+
 def get_point_devices(request):
     geojson = Perangkat.to_geojson(Perangkat.objects.all())
     return JsonResponse(geojson, status=200)
