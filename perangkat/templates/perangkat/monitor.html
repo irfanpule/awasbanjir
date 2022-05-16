@@ -10,12 +10,24 @@
             </div>
         </section>
         <div class="relative p-8 text-center border border-gray-200 rounded-lg">
-            <p class="mt-4 text-sm text-gray-500">
-                Status:
-            </p>
-            <h2 id="lastStatus" class="text-2xl font-medium uppercase">
-                .....
-            </h2>
+            <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                <div>
+                    <p class="mt-4 text-sm text-gray-500">
+                        Status:
+                    </p>
+                    <h2 id="lastStatus" class="text-2xl font-medium uppercase">
+                        .....
+                    </h2>
+                </div>
+                <div>
+                    <p class="mt-4 text-sm text-gray-500">
+                        Jarak:
+                    </p>
+                    <h2 id="lastDistance" class="text-2xl font-medium uppercase">
+                        .....s
+                    </h2>
+                </div>
+            </div>
         </div>
         <div>
             <canvas id="myChart"></canvas>
@@ -62,6 +74,7 @@
                     myChart.data.labels = data.label_series;
                     myChart.data.datasets[0].data = data.data_series;
                     document.getElementById("lastStatus").textContent = data.status;
+                    document.getElementById("lastDistance").textContent = data.jarak;
                     myChart.update();
                 }
             };
@@ -85,6 +98,7 @@
                     myChart.data.labels.push(data.label_series);
                     myChart.data.datasets[0].data.push(data.data_series);
                     document.getElementById("lastStatus").textContent = data.status;
+                    document.getElementById("lastDistance").textContent = data.jarak;
                     myChart.update();
                 }
             };

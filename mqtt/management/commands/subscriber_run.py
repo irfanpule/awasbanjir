@@ -55,6 +55,7 @@ def subscribe(client: mqtt_client):
 Status: {data_series.get_status_display()}, 
 Perangkat: {perangkat.nama}, 
 Milik: {perangkat.pemilik},
+Jarak: {data_series.jarak} cm,
 Lokasi: {perangkat.lokasi}
                         """
                         notifications.send_telegram_bot(
