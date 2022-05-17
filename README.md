@@ -41,3 +41,22 @@ Perangkat yang digunakan
     - Beep alert / buzzer akan berbunyi bila masuk pada status waspada, siaga, awas
   - Konfigurasi
     - Perangkat dapat menerima perubahan konfigurasi aktif/nonaktif beel alert atau batas ketinggian waspada
+
+### Rancangan
+#### Solusi
+![solusi](https://raw.githubusercontent.com/irfanpule/awasbanjir/main/docs/solution.png)
+
+#### Arsitektur
+![arsitektur](https://raw.githubusercontent.com/irfanpule/awasbanjir/main/docs/Architecture.jpg)
+
+#### Pemasangan Perangkat
+![device-installation](https://raw.githubusercontent.com/irfanpule/awasbanjir/main/docs/device-installation.png)
+
+### Tangkapan Layar
+#### Beranda
+Menampilkan semua lokasi perangkat yang teregistrasi ke sistem
+![home](https://raw.githubusercontent.com/irfanpule/awasbanjir/main/docs/home-awasbanjir.png)
+
+#### Live graphic
+Memantau pergerakan naik turunnya air
+![monitoring](https://raw.githubusercontent.com/irfanpule/awasbanjir/main/docs/live-graphic.png)
