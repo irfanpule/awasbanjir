@@ -60,6 +60,8 @@
 {% block extra_js %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        var waktu;
+
         const data = {
             labels: [],
             datasets: [{
@@ -109,6 +111,7 @@
                     myChart.data.datasets[0].data = data.data_series;
                     document.getElementById("lastStatus").textContent = data.status;
                     document.getElementById("lastDistance").textContent = data.jarak;
+                    waktu = data.waktu;
                     myChart.update();
                 }
             };
@@ -133,7 +136,10 @@
                     myChart.data.datasets[0].data.push(data.data_series);
                     document.getElementById("lastStatus").textContent = data.status;
                     document.getElementById("lastDistance").textContent = data.jarak;
-                    myChart.update();
+                    if(waktu != data.waktu){
+                        myChart.update();
+                        waktu = data.waktu;
+                    }
                 }
             };
 
@@ -142,8 +148,7 @@
         }
 
         loadContent();
-        setInterval(loadContent, 2000);
-
+        setInterval(getLastData, 2000);
     </script>
 
 {% endblock %}

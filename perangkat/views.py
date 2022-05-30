@@ -119,14 +119,16 @@ class GetDataSeriesView(DetailView):
                 'label_series': [str(data.created_at.strftime(self.str_date_char_label)) for data in data_series],
                 'data_series': [data.jarak for data in data_series],
                 'status': last_data.get_status_display(),
-                'jarak': last_data.jarak
+                'jarak': last_data.jarak,
+                'waktu': str(last_data.created_at.strftime("%M:%S"))
             }
         else:
             context = {
                 'label_series': [],
                 'data_series': [],
                 'status': '....',
-                'jarak': '....'
+                'jarak': '....',
+                'waktu': '....'
             }
         return JsonResponse(data=context, status=200)
 
@@ -155,12 +157,22 @@ class GetDataSeriesHistoryView(GetDataSeriesView):
 class GetLastDataView(GetDataSeriesView):
     def get(self, request, *args, **kwargs):
         data_series = self.get_queryset_data_series()
-        context = {
-            'label_series': str(data_series.created_at.strftime("%M:%S")),
-            'data_series': data_series.jarak,
-            'status': data_series.get_status_display(),
-            'jarak': data_series.jarak
-        }
+        if data_series:
+            context = {
+                'label_series': str(data_series.created_at.strftime(self.str_date_char_label)),
+                'data_series': data_series.jarak,
+                'status': data_series.get_status_display(),
+                'jarak': data_series.jarak,
+                'waktu': str(data_series.created_at.strftime("%M:%S"))
+            }
+        else:
+            context = {
+                'label_series': "....",
+                'data_series': "....",
+                'status': "....",
+                'jarak': "....",
+                'waktu': "...."
+            }
         return JsonResponse(data=context, status=200)
 
     def get_queryset_data_series(self):
