@@ -110,8 +110,8 @@ class GetDataSeriesView(DetailView):
     str_date_char_label = "%H:%M:%S"
     start_date = None
     end_date = None
-    limit = 100
-
+    limit = settings.LIMIT_LIVE_GRAPH
+    
     def _struct_response(self):
         return {
             'label_series': [],

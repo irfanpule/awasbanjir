@@ -153,6 +153,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MAPBOX_KEY = "pk.eyJ1IjoiaXJmYW5wdWxlIiwiYSI6ImNsMTRwMXg2bTBjNmozY3NnM2FhcWY0c2QifQ.zxmoQWTjXEtTxx907Zb8Zg"
 
+LIMIT_LIVE_GRAPH = 100
+
 try:
     from .local_settings import *
 except ImportError:
