@@ -46,3 +46,6 @@ ghostdriver.log
 
 ## django
 static/
+local_settings.py
+env/*
+logs/*
