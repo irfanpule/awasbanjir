@@ -110,26 +110,30 @@ class GetDataSeriesView(DetailView):
     str_date_char_label = "%H:%M:%S"
     start_date = None
     end_date = None
+    limit = 100
+
+    def _struct_response(self):
+        return {
+            'label_series': [],
+            'data_series': [],
+            'status': '....',
+            'jarak': '....',
+            'waktu': '....'
+        }
 
     def get(self, request, *args, **kwargs):
         data_series = self.get_queryset_data_series()
+        context = self._struct_response()
         if data_series:
             last_data = data_series.last()
-            context = {
-                'label_series': [str(data.created_at.strftime(self.str_date_char_label)) for data in data_series],
-                'data_series': [data.jarak for data in data_series],
-                'status': last_data.get_status_display(),
-                'jarak': last_data.jarak,
-                'waktu': str(last_data.created_at.strftime("%M:%S"))
-            }
-        else:
-            context = {
-                'label_series': [],
-                'data_series': [],
-                'status': '....',
-                'jarak': '....',
-                'waktu': '....'
-            }
+            if self.limit:
+                data_series = data_series[:100]
+            context = self._struct_response()
+            context['label_series'] = [str(data.created_at.strftime(self.str_date_char_label)) for data in data_series]
+            context['data_series'] = [data.jarak for data in data_series]
+            context['status'] = last_data.get_status_display()
+            context['jarak'] = last_data.jarak
+            context['waktu'] = str(last_data.created_at.strftime("%M:%S")) 
         return JsonResponse(data=context, status=200)
 
     def get_queryset_data_series(self):
@@ -140,6 +144,7 @@ class GetDataSeriesView(DetailView):
 class GetDataSeriesHistoryView(GetDataSeriesView):
     model = Perangkat
     str_date_char_label = "%d %b %Y, %H:%M:%S"
+    limit = None
 
     def dispatch(self, request, *args, **kwargs):
         start_date_str = self.request.GET.get('start_date', '')
@@ -157,22 +162,13 @@ class GetDataSeriesHistoryView(GetDataSeriesView):
 class GetLastDataView(GetDataSeriesView):
     def get(self, request, *args, **kwargs):
         data_series = self.get_queryset_data_series()
+        context = self._struct_response()
         if data_series:
-            context = {
-                'label_series': str(data_series.created_at.strftime(self.str_date_char_label)),
-                'data_series': data_series.jarak,
-                'status': data_series.get_status_display(),
-                'jarak': data_series.jarak,
-                'waktu': str(data_series.created_at.strftime("%M:%S"))
-            }
-        else:
-            context = {
-                'label_series': "....",
-                'data_series': "....",
-                'status': "....",
-                'jarak': "....",
-                'waktu': "...."
-            }
+            context['label_series'] = str(data_series.created_at.strftime(self.str_date_char_label))
+            context['data_series'] = data_series.jarak
+            context['status'] = data_series.get_status_display()
+            context['jarak'] = data_series.jarak
+            context['waktu'] = str(data_series.created_at.strftime("%M:%S"))
         return JsonResponse(data=context, status=200)
 
     def get_queryset_data_series(self):
