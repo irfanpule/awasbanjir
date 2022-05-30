@@ -82,6 +82,9 @@ class DataSeries(BaseModel):
     jarak = models.FloatField(help_text='Jarak perangkat ke air (centimeter)')
     status = models.PositiveSmallIntegerField(choices=STATUS, default=STATUS_BENCANA.normal)
 
+    class Meta:
+        ordering = ['created_at']
+
     def __str__(self):
         return f'{self.perangkat} - {self.jarak}'
 

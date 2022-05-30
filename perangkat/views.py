@@ -127,7 +127,7 @@ class GetDataSeriesView(DetailView):
         if data_series:
             last_data = data_series.last()
             if self.limit:
-                data_series = data_series[:100]
+                data_series = data_series[100:]
             context = self._struct_response()
             context['label_series'] = [str(data.created_at.strftime(self.str_date_char_label)) for data in data_series]
             context['data_series'] = [data.jarak for data in data_series]
