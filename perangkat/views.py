@@ -108,22 +108,31 @@ class GetDataSeriesView(DetailView):
     slug_field = 'device_id'
     slug_url_kwarg = 'device_id'
     str_date_char_label = "%H:%M:%S"
-    start_date = datetime.now()
-    end_date = datetime.now()
+    start_date = None
+    end_date = None
 
     def get(self, request, *args, **kwargs):
         data_series = self.get_queryset_data_series()
-        last_data = data_series.last()
-        context = {
-            'label_series': [str(data.created_at.strftime(self.str_date_char_label)) for data in data_series],
-            'data_series': [data.jarak for data in data_series],
-            'status': last_data.get_status_display(),
-            'jarak': last_data.jarak
-        }
+        if data_series:
+            last_data = data_series.last()
+            context = {
+                'label_series': [str(data.created_at.strftime(self.str_date_char_label)) for data in data_series],
+                'data_series': [data.jarak for data in data_series],
+                'status': last_data.get_status_display(),
+                'jarak': last_data.jarak
+            }
+        else:
+            context = {
+                'label_series': [],
+                'data_series': [],
+                'status': '....',
+                'jarak': '....'
+            }
         return JsonResponse(data=context, status=200)
 
     def get_queryset_data_series(self):
-        return self.get_object().dataseries_set.filter(created_at__date=self.end_date.date())
+
+        return self.get_object().dataseries_set.filter(created_at__date=datetime.now().date())
 
 
 class GetDataSeriesHistoryView(GetDataSeriesView):
@@ -155,7 +164,7 @@ class GetLastDataView(GetDataSeriesView):
         return JsonResponse(data=context, status=200)
 
     def get_queryset_data_series(self):
-        return self.get_object().dataseries_set.filter(created_at__date=self.end_date.date()).last()
+        return self.get_object().dataseries_set.filter(created_at__date=datetime.now().date()).last()
 
 
 class MonitorIntro(TemplateView):

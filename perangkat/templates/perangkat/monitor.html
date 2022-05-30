@@ -1,4 +1,23 @@
 {% extends 'website/master.html' %}
+{% block extra_css %}
+<style>
+    .chartWrapper {
+        position: relative;
+    }
+
+    .chartWrapper > canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        pointer-events:none;
+    }
+
+    .chartAreaWrapper {
+        width: 100%;
+        overflow-x: scroll;
+    }
+</style>
+{% endblock %}
 {% block content %}
     <div class="container px-5 py-5">
         <section>
@@ -29,8 +48,11 @@
                 </div>
             </div>
         </div>
-        <div>
-            <canvas id="myChart"></canvas>
+        <div class="chartWrapper">
+            <div class="chartAreaWrapper">
+                <canvas id="myChart"></canvas>
+                <canvas id="myChartAxis" height="300" width="0"></canvas>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -51,7 +73,19 @@
         const config = {
             type: 'line',
             data: data,
-            options: {}
+            options: {},
+            animation: {
+                onComplete: function() {
+                    var sourceCanvas = this.chart.ctx.canvas;
+                    var copyWidth = this.scale.xScalePaddingLeft - 5;
+                    // the +5 is so that the bottommost y axis label is not clipped off
+                    // we could factor this in using measureText if we wanted to be generic
+                    var copyHeight = this.scale.endPoint + 5;
+                    var targetCtx = document.getElementById("myChartAxis").getContext("2d");
+                    targetCtx.canvas.width = copyWidth;
+                    targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth, copyHeight, 0, 0, copyWidth, copyHeight);
+                }
+            }
         };
 
         const myChart = new Chart(
