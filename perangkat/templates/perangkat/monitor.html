@@ -132,11 +132,12 @@
                 if (this.responseText !== "") {
                     var data = JSON.parse(this.responseText);
                     console.log(data);
-                    myChart.data.labels.push(data.label_series);
-                    myChart.data.datasets[0].data.push(data.data_series);
-                    document.getElementById("lastStatus").textContent = data.status;
-                    document.getElementById("lastDistance").textContent = data.jarak;
+                    
                     if(waktu != data.waktu){
+                        myChart.data.labels.push(data.label_series);
+                        myChart.data.datasets[0].data.push(data.data_series);
+                        document.getElementById("lastStatus").textContent = data.status;
+                        document.getElementById("lastDistance").textContent = data.jarak;
                         myChart.update();
                         waktu = data.waktu;
                     }
