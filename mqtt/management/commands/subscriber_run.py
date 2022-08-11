@@ -62,6 +62,9 @@ Lokasi: {perangkat.lokasi}
                             settings.TELEGRAM_CHANNEL_TARGET,
                             message
                         )
+                        notifications.wa_send_message(
+                            settings.WA_GROUP_NAME, message, to_group=True
+                        )
             else:
                 print("gak ada perangkat")
         else:

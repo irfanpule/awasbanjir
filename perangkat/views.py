@@ -181,5 +181,6 @@ class MonitorIntro(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['telegram_username_channel'] = settings.TELEGRAM_CHANNEL_TARGET
+        context['wa_group_link'] = settings.WA_GROUP_LINK
         return context
 

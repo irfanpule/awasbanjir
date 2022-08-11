@@ -140,6 +140,11 @@ TELEGRAM_PHONE = '+628978950954'
 TELEGRAM_BOT_TOKEN = '5118646075:AAGSk4JXSTKPyPzn74shRSS0odLrohbyA6g'
 TELEGRAM_CHANNEL_TARGET = "awasbanjir"
 
+# Notificatoin whatsapp
+WA_DEVICE_ID = ""
+WA_GROUP_NAME = ""
+WA_GROUP_LINK = ""
+
 # config message topics
 TOPICS = {
     "received_data": "awas/banjir/senddata",

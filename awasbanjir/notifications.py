@@ -1,3 +1,4 @@
+import requests
 from telethon.sync import TelegramClient
 from django.conf import settings
 
@@ -18,3 +19,21 @@ def send_telegram_bot(user_entity, message="Awas Banjir!"):
                          settings.TELEGRAM_API_HASH).start(bot_token=settings.TELEGRAM_BOT_TOKEN)
     with bot:
         bot.send_message(user_entity, message)
+
+
+def wa_send_message(identifier: str, message: str = "Awas Banjir!", to_group: bool = False) -> dict:
+    device_id = settings.WA_DEVICE_ID
+    payload = {
+        'device_id': device_id,
+        'message': message
+    }
+
+    if to_group:
+        payload['group'] = identifier
+        url = "https://app.whacenter.com/api/sendGroup"
+    else:
+        payload['number'] = identifier
+        url = "https://app.whacenter.com/api/send"
+
+    response = requests.request("POST", url, data=payload)
+    return response.json()
