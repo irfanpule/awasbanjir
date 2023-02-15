@@ -24,7 +24,7 @@ Aplikasi berbasis web Awas Banjir dibangun menggunakan framework Django. Fitur y
   - Notifikasi
     - Telegram: konfigurasi API bot dan channel. Notifikasi live report akan dikirim ke channel yang ada pada konfigurasi
     - Email: (belum)
-    - WhatsApp: (belum)
+    - WhatsApp: API dari https://whacenter.com
 
 ### Tentang Perangkat
 Perangkat yang digunakan
@@ -60,3 +60,23 @@ Menampilkan semua lokasi perangkat yang teregistrasi ke sistem
 #### Live graphic
 Memantau pergerakan naik turunnya air
 ![monitoring](https://raw.githubusercontent.com/irfanpule/awasbanjir/main/docs/live-graphic.png)
+
+
+### Konfigurasi Notifikasi Telegram
+```
+# Notification telegram
+NOTIFICATION_ON = True
+TELEGRAM_API_ID = {your_telegram_api_id}
+TELEGRAM_API_HASH = '{your_telegram_api_hash}'
+TELEGRAM_PHONE = '{your_telegram_phone}'
+TELEGRAM_BOT_TOKEN = '{your_telegram_bot_token}'
+TELEGRAM_CHANNEL_TARGET = '{your_telegram_channel_target}'
+```
+
+### Konfigurasi Notifikasi Whatsapp
+Provider API Whatsapp menggunakan https://whacenter.com
+```
+WA_DEVICE_ID = ""
+WA_GROUP_NAME = ""
+WA_GROUP_LINK = ""
+```
