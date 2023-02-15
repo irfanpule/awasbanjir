@@ -63,8 +63,8 @@ Memantau pergerakan naik turunnya air
 
 
 ### Konfigurasi Notifikasi Telegram
+Ubah konfigurasi ini pada file `settings.py` atau `local_settings.py`
 ```
-# Notification telegram
 NOTIFICATION_ON = True
 TELEGRAM_API_ID = {your_telegram_api_id}
 TELEGRAM_API_HASH = '{your_telegram_api_hash}'
@@ -74,7 +74,8 @@ TELEGRAM_CHANNEL_TARGET = '{your_telegram_channel_target}'
 ```
 
 ### Konfigurasi Notifikasi Whatsapp
-Provider API Whatsapp menggunakan https://whacenter.com
+Provider API Whatsapp menggunakan https://whacenter.com.
+Ubah konfigurasi ini pada file `settings.py` atau `local_settings.py`
 ```
 WA_DEVICE_ID = ""
 WA_GROUP_NAME = ""
